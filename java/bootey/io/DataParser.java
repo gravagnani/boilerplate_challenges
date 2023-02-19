@@ -1,10 +1,10 @@
 package bootey.io;
 
-import lombok.extern.log4j.Log4j2;
 import bootey.dto.ChallengeModel;
 import bootey.dto.Delivery;
 import bootey.dto.Pizza;
 import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,6 +78,11 @@ public class DataParser {
 
         String prefix = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
         String outputFilename = prefix + "_" + fileName;
+
+        File directory = new File(Constants.OUTPUT_FOLDER);
+        if (!directory.exists()) {
+            directory.mkdir(); //create output_folder if it doesn't exist
+        }
 
         try (FileWriter writer = new FileWriter(new File(Constants.OUTPUT_FOLDER, outputFilename))) {
 

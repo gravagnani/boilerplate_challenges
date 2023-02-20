@@ -1,15 +1,15 @@
 package bootey;
 
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class Main {
@@ -22,6 +22,7 @@ public class Main {
 
         File inputFiles = new File(Constants.INPUT_FOLDER);
         File[] inputFilesList = inputFiles.listFiles();
+        Arrays.sort(inputFilesList);
 
         if (singleFile) {
             File file = Objects.requireNonNull(inputFilesList)[indexFileToProcess];

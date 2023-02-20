@@ -1,10 +1,5 @@
 package bootey.io;
 
-import bootey.dto.ChallengeModel;
-import bootey.dto.Demon;
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -19,6 +14,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import bootey.dto.ChallengeModel;
+import bootey.dto.Demon;
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class DataParser {
@@ -38,7 +38,7 @@ public class DataParser {
             throw new RuntimeException(e);
         }
 
-        //TODO: decide how to scan and save data
+        // TODO: decide how to scan and save data
 
         // first line
         data = scanner.nextLine();
@@ -58,7 +58,7 @@ public class DataParser {
             // first line
             data = scanner.nextLine();
             splitData = data.split(" ");
-            //log.debug("Demon {}", libIxd);
+            // log.debug("Demon {}", libIxd);
 
             Integer Id = libIxd;
             Integer Sc = Integer.parseInt(splitData[0]);
@@ -79,7 +79,6 @@ public class DataParser {
         }
         challenge.setListDemons(demonList);
 
-
         scanner.close();
         return challenge;
     }
@@ -91,7 +90,7 @@ public class DataParser {
 
         File directory = new File(Constants.OUTPUT_FOLDER);
         if (!directory.exists()) {
-            directory.mkdir(); //create output_folder if it doesn't exist
+            directory.mkdir(); // create output_folder if it doesn't exist
         }
 
         try (FileWriter writer = new FileWriter(new File(Constants.OUTPUT_FOLDER, outputFilename))) {
@@ -102,10 +101,8 @@ public class DataParser {
             log.error("error: ", e);
         }
 
-        String out = Constants.OUTPUT_FOLDER + "/test.zip";
-        zipSourceCode(out, "pom.xml",
-                "java",
-                "resources");
+        String out = Constants.OUTPUT_FOLDER + "/" + prefix + "_test.zip";
+        zipSourceCode(out, "pom.xml", "src");
     }
 
     private static void zipSourceCode(final String zipFilePath, final String... sourceDirPaths) {
@@ -126,10 +123,10 @@ public class DataParser {
                         });
             }
             zs.finish();
-            Files.deleteIfExists(filePath);
             log.debug("file zipped, zipoutstream closed");
         } catch (IOException e) {
-            log.error("err: exception of class {} , message: {}", e.getClass().getSimpleName(), e.getLocalizedMessage());
+            log.error("err: exception of class {} , message: {}", e.getClass().getSimpleName(),
+                    e.getLocalizedMessage());
         }
     }
 

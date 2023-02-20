@@ -1,7 +1,7 @@
 HELP.md
 /logs/
 /target/
-resource/output/
+output/
 !.mvn/wrapper/maven-wrapper.jar
 
 .apt_generated

@@ -2,12 +2,9 @@ package bootey.solvers;
 
 import lombok.extern.log4j.Log4j2;
 import bootey.dto.ChallengeModel;
-import bootey.dto.Delivery;
-import bootey.dto.Pizza;
+import bootey.dto.Demon;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 @Log4j2
 public class Solver {
@@ -16,52 +13,69 @@ public class Solver {
 
     public static void solve(ChallengeModel challenge) {
 
-        List<Pizza> listPizzas = challenge.getListPizzas();
-        List<Delivery> listDelivers = challenge.getListDelivers();
+        Demon[] solution = new Demon[challenge.getT()];
+        Integer[] stamina = new Integer[challenge.getT()];
 
-        challenge.getListPizzas().sort(comparator());
-
-        for (int t = 0; t < challenge.getNT4(); t++) {
-            if (listPizzas.size() < 4) {
-                break;
-            }
-            List<Pizza> lp = new ArrayList<>();
-            for (int p = 0; p < 4; p++) {
-                lp.add(listPizzas.remove(getNextPizza()));
-            }
-            Delivery d = new Delivery(4, lp);
-            listDelivers.add(d);
+        for (int i = 0; i < challenge.getT(); i++) {
+            solution[i] = null;
+            stamina[i] = 0;
         }
 
-        for (int t = 0; t < challenge.getNT3(); t++) {
-            if (listPizzas.size() < 3) {
-                break;
-            }
-            List<Pizza> lp = new ArrayList<>();
-            for (int p = 0; p < 3; p++) {
-                lp.add(listPizzas.remove(getNextPizza()));
-            }
-            Delivery d = new Delivery(3, lp);
-            listDelivers.add(d);
-        }
+        challenge.getListDemons().sort(comparator());
 
-        for (int t = 0; t < challenge.getNT2(); t++) {
-            if (listPizzas.size() < 2) {
-                break;
+        for (int t = 0; t < solution.length; t++) {
+            if (t % 100 == 0) {
+                log.info("t % 100 == 0 -> t={}, T={}", t, challenge.getT());
             }
-            List<Pizza> lp = new ArrayList<>();
-            for (int p = 0; p < 2; p++) {
-                lp.add(listPizzas.remove(getNextPizza()));
+
+            // aggiorno lista demon
+            for (Demon d : challenge.getListDemons()) {
+                // d.computeWeight2(T - t);
+                d.setWeight(challenge.getT() - t, challenge.getSi());
             }
-            Delivery d = new Delivery(2, lp);
-            listDelivers.add(d);
+
+
+            challenge.getListDemons().sort(comparator());
+
+            // recupero stamina
+            challenge.setSi(Math.min(challenge.getSi() + stamina[t], challenge.getSmax()));
+
+            // scelgo demone
+            for (int i = 0; i < challenge.getListDemons().size(); i++) {
+                if (challenge.getSi() >= challenge.getListDemons().get(i).getSc()) {
+                    solution[t] = challenge.getListDemons().remove(i);
+                    break;
+                }
+            }
+
+            // rimozione stamina
+            if (solution[t] == null) {
+                continue;
+            }
+
+            challenge.setSi(challenge.getSi() - solution[t].getSc());
+
+            try {
+                stamina[t + solution[t].getTr()] += solution[t].getSr();
+            } catch (Exception e) {
+                log.error("err: {}", e.getLocalizedMessage());
+            }
         }
+        challenge.setSolution(solution);
+        challenge.setStamina(stamina);
 
         log.info("Solved");
     }
 
-    private static Comparator<Pizza> comparator() {
-        return (o1, o2) -> o2.getNDiff() - o1.getNDiff();
+    private static Comparator<Demon> comparator() {
+        return (d1, d2) -> {
+            if (d2.getWeight() > d1.getWeight()) {
+                return 1;
+            } else if (d2.getWeight() < d1.getWeight()) {
+                return -1;
+            }
+            return 0;
+        };
     }
 
     public static int getNextPizza() {

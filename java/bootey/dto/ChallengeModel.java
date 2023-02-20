@@ -11,19 +11,27 @@ import java.util.List;
 @NoArgsConstructor
 public class ChallengeModel {
 
-    private Integer nPizzas;
-    private Integer nT2;
-    private Integer nT3;
-    private Integer nT4;
+    private Integer Si;
+    private Integer Smax;
+    private Integer T;
+    private Integer D;
 
-    private List<Pizza> listPizzas;
-    private List<Delivery> listDelivers;
+    private List<Demon> listDemons;
+
+    private Demon[] solution;
+    private Integer[] stamina;
 
     private int score;
 
 
     public String toChallengeOutput() {
-        //TODO
-        return null;
+        StringBuilder s = new StringBuilder();
+        for (Demon d : solution) {
+            if (d != null) {
+                s.append(d.getId())
+                        .append("\n");
+            }
+        }
+        return s.toString();
     }
 }

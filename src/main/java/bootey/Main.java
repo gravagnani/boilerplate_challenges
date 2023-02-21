@@ -32,7 +32,7 @@ public class Main {
 
         for (File fileEntry : Objects.requireNonNull(inputFilesList)) {
             if (!fileEntry.isFile()) {
-                log.warn("Skipped element [{}] of fileList since it was not a file.", fileEntry.getName());
+                log.warn("Skipped element [{}] of fileList since it was not a file .", fileEntry.getName());
                 continue;
             }
             new Thread(new GameLauncher(fileEntry)).start();

@@ -1,5 +1,10 @@
 package bootey.io;
 
+import bootey.dto.ChallengeModel;
+import bootey.dto.Demon;
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -14,11 +19,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import bootey.dto.ChallengeModel;
-import bootey.dto.Demon;
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class DataParser {
@@ -83,7 +83,7 @@ public class DataParser {
         return challenge;
     }
 
-    public static void toFile(ChallengeModel challenge, String fileName) throws IOException {
+    public static void toFile(ChallengeModel challenge, String fileName) {
 
         String prefix = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date(System.currentTimeMillis()));
         String outputFilename = prefix + "_" + fileName;
@@ -107,7 +107,14 @@ public class DataParser {
 
     private static void zipSourceCode(final String zipFilePath, final String... sourceDirPaths) {
 
+        //TODO: migliorare
+
         Path filePath = Paths.get(zipFilePath);
+        try {
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            log.warn("zipSourceCode: caught exception of class [{}] when trying to perform 'deleteIfExists'", e.getClass().getSimpleName());
+        }
         try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(filePath))) {
             for (String sourceDirPath : sourceDirPaths) {
                 Files.walk(Paths.get(sourceDirPath))

@@ -1,5 +1,8 @@
 package bootey;
 
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -7,9 +10,6 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class Main {
@@ -21,16 +21,16 @@ public class Main {
         log.debug("Current directory: {}", System.getProperty("user.dir"));
 
         File inputFiles = new File(Constants.INPUT_FOLDER);
-        File[] inputFilesList = inputFiles.listFiles();
+        File[] inputFilesList = Objects.requireNonNull(inputFiles.listFiles());
         Arrays.sort(inputFilesList);
 
         if (singleFile) {
-            File file = Objects.requireNonNull(inputFilesList)[indexFileToProcess];
+            File file = inputFilesList[indexFileToProcess];
             new Thread(new GameLauncher(file)).start();
             return;
         }
 
-        for (File fileEntry : Objects.requireNonNull(inputFilesList)) {
+        for (File fileEntry : inputFilesList) {
             if (!fileEntry.isFile()) {
                 log.warn("Skipped element [{}] of fileList since it was not a file .", fileEntry.getName());
                 continue;
@@ -42,11 +42,11 @@ public class Main {
     private static void includeHighLevelSkill() {
         InputStream inputStream = Main.class.getResourceAsStream("/banner.txt");
         if (inputStream == null) {
-            log.error("inputStream null");
+            log.error("Unable to print super cool banner cause resourceStream is null.");
+            return;
         }
-        assert inputStream != null;
         String banner = new BufferedReader(new InputStreamReader(inputStream))
                 .lines().collect(Collectors.joining("\n"));
-        System.err.println(banner);
+        System.err.println(banner); //print in red
     }
 }

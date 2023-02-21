@@ -12,6 +12,8 @@ output/
 .springBeans
 .sts4-cache
 
+**/.DS_STORE
+
 .idea
 *.iws
 *.iml

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Log4j2
 public class Main {
+
     private static final boolean singleFile = true;
     private static final Integer indexFileToProcess = 1;
 

@@ -1,10 +1,5 @@
 package bootey.io;
 
-import bootey.dto.ChallengeModel;
-import bootey.dto.Demon;
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -19,6 +14,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.javatuples.Pair;
+
+import bootey.dto.ChallengeModel;
+import bootey.dto.Child;
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class DataParser {
@@ -38,46 +40,46 @@ public class DataParser {
             throw new RuntimeException(e);
         }
 
-        // TODO: decide how to scan and save data
-
         // first line
         data = scanner.nextLine();
         splitData = data.split(" ");
-        challenge.setSi(Integer.parseInt(splitData[0]));
-        challenge.setSmax(Integer.parseInt(splitData[1]));
-        challenge.setT(Integer.parseInt(splitData[2]));
-        challenge.setD(Integer.parseInt(splitData[3]));
+        challenge.setT(Integer.parseInt(splitData[0]));
+        challenge.setD(Integer.parseInt(splitData[1]));
+        challenge.setW(Integer.parseInt(splitData[2]));
+        challenge.setG(Integer.parseInt(splitData[3]));
 
-        // next 'till end
-
-        challenge.setListDemons(new ArrayList<>());
-
-        List<Demon> demonList = new ArrayList<>();
-        int libIxd = 0;
-        while (scanner.hasNextLine()) {
+        List<Pair<Integer, Integer>> listRanges = new ArrayList<>();
+        for (int i = 0; i < challenge.getW(); i++) {
             // first line
             data = scanner.nextLine();
             splitData = data.split(" ");
             // log.debug("Demon {}", libIxd);
 
-            Integer Id = libIxd;
-            Integer Sc = Integer.parseInt(splitData[0]);
-            Integer Tr = Integer.parseInt(splitData[1]);
-            Integer Sr = Integer.parseInt(splitData[2]);
-            Integer Na = Integer.parseInt(splitData[3]);
+            Integer l = Integer.parseInt(splitData[0]);
+            Integer a = Integer.parseInt(splitData[1]);
 
-            List<Integer> fragments = new ArrayList<>();
+            listRanges.add(new Pair<Integer, Integer>(l, a));
 
-            for (int i = 4; i < 4 + Na; i++) {
-                fragments.add(Integer.parseInt(splitData[i]));
-            }
-
-            Demon p = new Demon(Id, Sc, Tr, Sr, Na, fragments);
-
-            demonList.add(p);
-            libIxd++;
         }
-        challenge.setListDemons(demonList);
+        challenge.setListRanges(listRanges);
+
+        List<Child> listChild = new ArrayList<>();
+        for (int i = 0; i < challenge.getG(); i++) {
+            // first line
+            data = scanner.nextLine();
+            splitData = data.split(" ");
+            // log.debug("Demon {}", libIxd);
+
+            String name = splitData[0];
+            Integer s = Integer.parseInt(splitData[1]);
+            Integer w = Integer.parseInt(splitData[2]);
+            Integer c = Integer.parseInt(splitData[3]);
+            Integer r = Integer.parseInt(splitData[4]);
+
+            listChild.add(new Child(name, s, w, c, r));
+
+        }
+        challenge.setListChild(listChild);
 
         scanner.close();
         return challenge;
@@ -107,13 +109,14 @@ public class DataParser {
 
     private static void zipSourceCode(final String zipFilePath, final String... sourceDirPaths) {
 
-        //TODO: migliorare
+        // TODO: migliorare
 
         Path filePath = Paths.get(zipFilePath);
         try {
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
-            log.warn("zipSourceCode: caught exception of class [{}] when trying to perform 'deleteIfExists'", e.getClass().getSimpleName());
+            log.warn("zipSourceCode: caught exception of class [{}] when trying to perform 'deleteIfExists'",
+                    e.getClass().getSimpleName());
         }
         try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(filePath))) {
             for (String sourceDirPath : sourceDirPaths) {

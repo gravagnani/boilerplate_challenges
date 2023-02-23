@@ -1,10 +1,10 @@
 package bootey.solvers;
 
-import lombok.extern.log4j.Log4j2;
-import bootey.dto.ChallengeModel;
-import bootey.dto.Demon;
-
 import java.util.Comparator;
+
+import bootey.dto.ChallengeModel;
+import bootey.dto.Child;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class Solver {
@@ -13,7 +13,7 @@ public class Solver {
 
     public static void solve(ChallengeModel challenge) {
 
-        Demon[] solution = new Demon[challenge.getT()];
+        Child[] solution = new Child[challenge.getT()];
         Integer[] stamina = new Integer[challenge.getT()];
 
         for (int i = 0; i < challenge.getT(); i++) {
@@ -29,11 +29,10 @@ public class Solver {
             }
 
             // aggiorno lista demon
-            for (Demon d : challenge.getListDemons()) {
+            for (Child d : challenge.getListDemons()) {
                 // d.computeWeight2(T - t);
                 d.setWeight(challenge.getT() - t, challenge.getSi());
             }
-
 
             challenge.getListDemons().sort(comparator());
 
@@ -42,7 +41,7 @@ public class Solver {
 
             // scelgo demone
             for (int i = 0; i < challenge.getListDemons().size(); i++) {
-                if (challenge.getSi() >= challenge.getListDemons().get(i).getSc()) {
+                if (challenge.getSi() >= challenge.getListDemons().get(i).getS()) {
                     solution[t] = challenge.getListDemons().remove(i);
                     break;
                 }
@@ -53,10 +52,10 @@ public class Solver {
                 continue;
             }
 
-            challenge.setSi(challenge.getSi() - solution[t].getSc());
+            challenge.setSi(challenge.getSi() - solution[t].getS());
 
             try {
-                stamina[t + solution[t].getTr()] += solution[t].getSr();
+                stamina[t + solution[t].getW()] += solution[t].getC();
             } catch (Exception e) {
                 log.error("err: {}", e.getLocalizedMessage());
             }
@@ -67,7 +66,7 @@ public class Solver {
         log.info("Solved");
     }
 
-    private static Comparator<Demon> comparator() {
+    private static Comparator<Child> comparator() {
         return (d1, d2) -> {
             if (d2.getWeight() > d1.getWeight()) {
                 return 1;

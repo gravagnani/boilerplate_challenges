@@ -81,6 +81,8 @@ public class DataParser {
         }
         challenge.setListChild(listChild);
 
+        challenge.setSanta(new Pair<Integer, Integer>(0, 0));
+
         scanner.close();
         return challenge;
     }

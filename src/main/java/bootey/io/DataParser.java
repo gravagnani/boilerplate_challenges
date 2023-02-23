@@ -19,6 +19,7 @@ import org.javatuples.Pair;
 
 import bootey.dto.ChallengeModel;
 import bootey.dto.Child;
+import bootey.dto.Santa;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
 
@@ -81,7 +82,9 @@ public class DataParser {
         }
         challenge.setListChild(listChild);
 
-        challenge.setSanta(new Pair<Integer, Integer>(0, 0));
+        Santa santa = new Santa(new Pair<Integer, Integer>(0, 0), 0, new Pair<Integer, Integer>(0, 0));
+
+        challenge.setSanta(santa);
 
         scanner.close();
         return challenge;

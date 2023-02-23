@@ -22,7 +22,7 @@ public class ChallengeModel {
     private List<Pair<Integer, Integer>> listRanges;
     private List<Child> listChild;
 
-    private Pair<Integer, Integer> santa;
+    private Santa santa;
 
     private List<String> actions;
 

@@ -1,9 +1,6 @@
 package bootey.solvers;
 
-import java.util.Comparator;
-
 import bootey.dto.ChallengeModel;
-import bootey.dto.Child;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -13,71 +10,40 @@ public class Solver {
 
     public static void solve(ChallengeModel challenge) {
 
-        Child[] solution = new Child[challenge.getT()];
-        Integer[] stamina = new Integer[challenge.getT()];
+        // while T > 0
 
-        for (int i = 0; i < challenge.getT(); i++) {
-            solution[i] = null;
-            stamina[i] = 0;
-        }
+        // ho regali a bordo?
+        // se no torno alla base
 
-        challenge.getListDemons().sort(comparator());
+        // hai un bambino nelle vicinanze?
 
-        for (int t = 0; t < solution.length; t++) {
-            if (t % 100 == 0) {
-                log.info("t % 100 == 0 -> t={}, T={}", t, challenge.getT());
-            }
+        // se si allora consegno il regalo
 
-            // aggiorno lista demon
-            for (Child d : challenge.getListDemons()) {
-                // d.computeWeight2(T - t);
-                d.setWeight(challenge.getT() - t, challenge.getSi());
-            }
+        // seleziono un bambino
 
-            challenge.getListDemons().sort(comparator());
+        // calcolo la velocita necessaria
 
-            // recupero stamina
-            challenge.setSi(Math.min(challenge.getSi() + stamina[t], challenge.getSmax()));
+        // setto accelerzione
 
-            // scelgo demone
-            for (int i = 0; i < challenge.getListDemons().size(); i++) {
-                if (challenge.getSi() >= challenge.getListDemons().get(i).getS()) {
-                    solution[t] = challenge.getListDemons().remove(i);
-                    break;
-                }
-            }
+        // mi muovo di 1s
 
-            // rimozione stamina
-            if (solution[t] == null) {
-                continue;
-            }
-
-            challenge.setSi(challenge.getSi() - solution[t].getS());
-
-            try {
-                stamina[t + solution[t].getW()] += solution[t].getC();
-            } catch (Exception e) {
-                log.error("err: {}", e.getLocalizedMessage());
-            }
-        }
-        challenge.setSolution(solution);
-        challenge.setStamina(stamina);
+        // T+1
 
         log.info("Solved");
     }
 
-    private static Comparator<Child> comparator() {
-        return (d1, d2) -> {
-            if (d2.getWeight() > d1.getWeight()) {
-                return 1;
-            } else if (d2.getWeight() < d1.getWeight()) {
-                return -1;
-            }
-            return 0;
-        };
-    }
+    // private static Comparator<Child> comparator() {
+    // return (d1, d2) -> {
+    // if (d2.getWeight() > d1.getWeight()) {
+    // return 1;
+    // } else if (d2.getWeight() < d1.getWeight()) {
+    // return -1;
+    // }
+    // return 0;
+    // };
+    // }
 
-    public static int getNextPizza() {
+    public static int getNextChild() {
         return 0;
     }
 

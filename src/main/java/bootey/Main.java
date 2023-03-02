@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class Main {
 
     private static final boolean singleFile = true;
-    private static final Integer indexFileToProcess = 1;
+    private static final Integer indexFileToProcess = 0;
 
     public static void main(String[] args) {
         includeHighLevelSkill();

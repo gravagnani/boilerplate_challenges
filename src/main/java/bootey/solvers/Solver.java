@@ -121,7 +121,11 @@ public class Solver {
                 int distance = Math.abs(antenna.getAx() - bTemp.getBx()) + Math.abs(antenna.getAy() - bTemp.getBy());
                 if (distance > antenna.getAr())
                     continue;
-                score += bTemp.getBc() * antenna.getAc() - bTemp.getBl() * distance;
+                int scoreTemp = bTemp.getBc() * antenna.getAc() - bTemp.getBl() * distance;
+                if (scoreTemp > bTemp.getMaxScore()) {
+                    bTemp.setMaxScore(scoreTemp);
+                    score += scoreTemp;
+                }
             }
         }
 

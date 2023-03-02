@@ -1,8 +1,5 @@
 package bootey;
 
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -11,11 +8,14 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2
 public class Main {
 
     private static final boolean singleFile = true;
-    private static final Integer indexFileToProcess = 0;
+    private static final Integer indexFileToProcess = 3;
 
     public static void main(String[] args) {
         includeHighLevelSkill();
@@ -48,6 +48,6 @@ public class Main {
         }
         String banner = new BufferedReader(new InputStreamReader(inputStream))
                 .lines().collect(Collectors.joining("\n"));
-        System.err.println(banner); //print in red
+        System.err.println(banner); // print in red
     }
 }

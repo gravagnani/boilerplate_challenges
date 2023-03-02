@@ -1,7 +1,9 @@
 package bootey.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -22,6 +24,8 @@ public class ChallengeModel {
 
     private List<Antenna> antennaList;
     private List<Building> buildingList;
+    private Map<Pair<Integer, Integer>, Building> buildingListMap = new HashMap<>();
+    List<Pair<Integer, Integer>> coordinates = new ArrayList<>();
 
     private List<Antenna> placedAntennaList = new ArrayList<>();
 

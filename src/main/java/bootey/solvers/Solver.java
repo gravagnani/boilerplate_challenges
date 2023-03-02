@@ -1,19 +1,22 @@
 package bootey.solvers;
 
+import java.util.Comparator;
+import java.util.Map;
+
+import org.javatuples.Pair;
+
 import bootey.dto.Antenna;
 import bootey.dto.Building;
 import bootey.dto.ChallengeModel;
 import lombok.extern.log4j.Log4j2;
-
-import java.util.Comparator;
-import java.util.stream.Stream;
 
 @Log4j2
 public class Solver {
     private Solver() {
     }
 
-    public static void solve(ChallengeModel challenge) {
+    // VECCHIA SOLUZIONE
+    public static void solve1(ChallengeModel challenge) {
 
         // ordino Building per Bc (velocità) in maniera DESC
         challenge.getBuildingList().sort(comparator());
@@ -31,6 +34,43 @@ public class Solver {
             challenge.getPlacedAntennaList().add(antenna);
         }
 
+        log.info("Solved");
+    }
+
+    // ORA QUA CAZZOOOO
+    public static void solve(ChallengeModel challenge) {
+
+        for (Building b : challenge.getBuildingList()) {
+            challenge.getBuildingListMap().put(new Pair<Integer, Integer>(b.getBx(), b.getBy()), b);
+        }
+
+        for (int i = 0; i < challenge.getH(); i++) {
+            for (int j = 0; j < challenge.getW(); j++) {
+                challenge.getCoordinates().add(new Pair<Integer, Integer>(i, j));
+            }
+        }
+
+        for (Antenna a : challenge.getAntennaList()) {
+            int[] scores = challenge.getCoordinates().parallelStream().mapToInt(el -> {
+                a.setAx(el.getValue0());
+                a.setAy(el.getValue1());
+                return scoreCalculator(a, challenge.getBuildingListMap());
+            }).toArray();
+
+            int maxIndex = 0;
+            for (int i = 1; i < scores.length; i++) {
+                if (scores[i] > scores[maxIndex]) {
+                    maxIndex = i;
+                }
+            }
+
+            a.setAx(challenge.getCoordinates().get(maxIndex).getValue0());
+            a.setAy(challenge.getCoordinates().get(maxIndex).getValue1());
+
+            challenge.getCoordinates().remove(maxIndex);
+            challenge.getPlacedAntennaList().add(a);
+
+        }
 
         log.info("Solved");
     }
@@ -61,8 +101,23 @@ public class Solver {
         return 0;
     }
 
-    public int scoreCalculator() {
-        // calcola lo score del problema
-        return 1;
+    public static int scoreCalculator(Antenna antenna, Map<Pair<Integer, Integer>, Building> buildings) {
+        if (!(antenna.getAx() != null && antenna.getAy() != null))
+            throw new RuntimeException("Errore");
+        int score = 0;
+        for (int i = antenna.getAx() - antenna.getAr(); i < antenna.getAx() + antenna.getAr(); i++) {
+            for (int j = antenna.getAy() - antenna.getAr(); j < antenna.getAy() + antenna.getAr(); j++) {
+                Building bTemp = buildings.get(new Pair(i, j));
+                if (bTemp == null)
+                    continue;
+                int distance = Math.abs(antenna.getAx() - bTemp.getBx()) + Math.abs(antenna.getAy() - bTemp.getBy());
+                if (distance > antenna.getAr())
+                    continue;
+                score += bTemp.getBc() * antenna.getAc() - bTemp.getBl() * distance;
+            }
+        }
+
+        return score;
     }
+
 }

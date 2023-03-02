@@ -1,5 +1,6 @@
 package bootey.solvers;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 
@@ -50,7 +51,14 @@ public class Solver {
             }
         }
 
+        Collections.shuffle(challenge.getCoordinates());
+        challenge.setCoordinates(challenge.getCoordinates().subList(0, challenge.getAntennaList().size() * 5));
+
+        int counter = 0;
         for (Antenna a : challenge.getAntennaList()) {
+            counter++;
+            log.info("Antenna " + (counter) + "  / " + challenge.getAntennaList().size());
+
             int[] scores = challenge.getCoordinates().parallelStream().mapToInt(el -> {
                 a.setAx(el.getValue0());
                 a.setAy(el.getValue1());

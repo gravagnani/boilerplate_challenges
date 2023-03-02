@@ -32,7 +32,7 @@ public class Solver {
         log.info("Solved");
     }
 
-    // private static Comparator<Child> comparator() {
+    // private static Comparator<Building> comparator() {
     // return (d1, d2) -> {
     // if (d2.getWeight() > d1.getWeight()) {
     // return 1;

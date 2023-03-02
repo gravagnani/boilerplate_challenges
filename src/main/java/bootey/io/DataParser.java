@@ -1,5 +1,11 @@
 package bootey.io;
 
+import bootey.dto.Antenna;
+import bootey.dto.Building;
+import bootey.dto.ChallengeModel;
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -14,14 +20,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import org.javatuples.Pair;
-
-import bootey.dto.ChallengeModel;
-import bootey.dto.Child;
-import bootey.dto.Santa;
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class DataParser {
@@ -44,47 +42,48 @@ public class DataParser {
         // first line
         data = scanner.nextLine();
         splitData = data.split(" ");
-        challenge.setT(Integer.parseInt(splitData[0]));
-        challenge.setD(Integer.parseInt(splitData[1]));
-        challenge.setW(Integer.parseInt(splitData[2]));
-        challenge.setG(Integer.parseInt(splitData[3]));
+        challenge.setW(Integer.parseInt(splitData[0]));
+        challenge.setH(Integer.parseInt(splitData[1]));
 
-        List<Pair<Integer, Integer>> listRanges = new ArrayList<>();
-        for (int i = 0; i < challenge.getW(); i++) {
+        // second line
+        data = scanner.nextLine();
+        splitData = data.split(" ");
+        challenge.setN(Integer.parseInt(splitData[0]));
+        challenge.setM(Integer.parseInt(splitData[1]));
+        challenge.setR(Integer.parseInt(splitData[2]));
+
+
+        List<Building> buildings = new ArrayList<>();
+        for (int i = 0; i < challenge.getN(); i++) {
             // first line
             data = scanner.nextLine();
             splitData = data.split(" ");
             // log.debug("Demon {}", libIxd);
 
-            Integer l = Integer.parseInt(splitData[0]);
-            Integer a = Integer.parseInt(splitData[1]);
-
-            listRanges.add(new Pair<Integer, Integer>(l, a));
-
-        }
-        challenge.setListRanges(listRanges);
-
-        List<Child> listChild = new ArrayList<>();
-        for (int i = 0; i < challenge.getG(); i++) {
-            // first line
-            data = scanner.nextLine();
-            splitData = data.split(" ");
-            // log.debug("Demon {}", libIxd);
-
-            String name = splitData[0];
-            Integer s = Integer.parseInt(splitData[1]);
-            Integer w = Integer.parseInt(splitData[2]);
+            Integer x = Integer.parseInt(splitData[0]);
+            Integer y = Integer.parseInt(splitData[1]);
+            Integer l = Integer.parseInt(splitData[2]);
             Integer c = Integer.parseInt(splitData[3]);
-            Integer r = Integer.parseInt(splitData[4]);
 
-            listChild.add(new Child(name, s, w, c, r));
+            buildings.add(new Building(x, y, l, c));
 
         }
-        challenge.setListChild(listChild);
+        challenge.setBuildingList(buildings);
 
-        Santa santa = new Santa(new Pair<Integer, Integer>(0, 0), 0, new Pair<Integer, Integer>(0, 0));
+        List<Antenna> antennas = new ArrayList<>();
+        for (int i = 0; i < challenge.getM(); i++) {
+            // first line
+            data = scanner.nextLine();
+            splitData = data.split(" ");
+            // log.debug("Demon {}", libIxd);
 
-        challenge.setSanta(santa);
+            Integer r = Integer.parseInt(splitData[0]);
+            Integer c = Integer.parseInt(splitData[1]);
+
+            antennas.add(new Antenna(i, r, c));
+
+        }
+        challenge.setAntennaList(antennas);
 
         scanner.close();
         return challenge;

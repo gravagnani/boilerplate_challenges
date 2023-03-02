@@ -13,16 +13,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChallengeModel {
 
-    private Integer T; // T the time limit in seconds, (1≤T≤10,000)
-    private Integer D; // the reach range (0≤D≤100), that is maximum distance from sleigh for gift
-                       // delivery and gift/carrot pick up
-    private Integer W; // the number of acceleration ranges sleigh has (1≤W≤10)
-    private Integer G; // the number of gifts in the dataset, (1≤G≤10,000)
+    private Integer W; // asse x
+    private Integer H; // asse Y
+    private Integer N; // numero Building
+    private Integer M; // numero antenne
+    private Integer R; // reward // non ci serve
 
-    private List<Pair<Integer, Integer>> listRanges;
-    private List<Child> listChild;
-
-    private Santa santa;
+    private List<Antenna> antennaList;
+    private List<Building> buildingList;
 
     private List<String> actions;
 

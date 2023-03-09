@@ -17,6 +17,7 @@ import bootey.dto.ChallengeModel;
 import bootey.dto.Snake;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
+import org.javatuples.Pair;
 
 @Log4j2
 public class DataParser {
@@ -53,6 +54,7 @@ public class DataParser {
         challenge.setSnakeList(snakeList);
 
         Integer[][] matrix = new Integer[challenge.getNRow()][challenge.getNCol()];
+        List<Pair<Integer, Integer>> wormholeList = new ArrayList<>();
         for (int i = 0; i < challenge.getNRow(); i++) {
 
             data = scanner.nextLine();
@@ -62,15 +64,20 @@ public class DataParser {
                 try {
                     i1 = Integer.parseInt(splitData[j]);
                 } catch (NumberFormatException e) {
+                    // wormhole
                     i1 = null;
+                    wormholeList.add(new Pair<>(i,j));
                 }
                 matrix[i][j] = i1;
             }
 
         }
         challenge.setMatrix(matrix);
+        challenge.setWormholeList(wormholeList);
 
         scanner.close();
+        // to print matrix
+        log.debug("Printing matrix");
         for (int i = 0; i < challenge.getNRow(); i++) {
             for (int j = 0; j < challenge.getNCol(); j++) {
                 System.out.print(matrix[i][j] + " ");

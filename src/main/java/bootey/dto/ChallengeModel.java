@@ -26,6 +26,7 @@ public class ChallengeModel {
     public String toChallengeOutput() {
 
         StringBuilder s = new StringBuilder();
+        int S = 0;
         for (Snake snake : snakeList) {
             // List<String> actions = snake.getActions();
             List<NextMove> actions = snake.getMoves();
@@ -43,8 +44,11 @@ public class ChallengeModel {
                         s.append(actions.get(i).getAction() + " ");
                     }
                 }
-                s.append("\n");
+                if (S < snakeList.size() - 1) {
+                    s.append("\n");
+                }
             }
+            S++;
         }
         return s.toString();
     }

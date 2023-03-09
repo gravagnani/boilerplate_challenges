@@ -1,10 +1,10 @@
 package bootey.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,15 +21,18 @@ public class ChallengeModel {
 
     public String toChallengeOutput() {
 
-        return "";
-        /*
-         * StringBuilder s = new StringBuilder();
-         * s.append(placedAntennaList.size()).append("\n");
-         * for (Snake d : placedAntennaList) {
-         * s.append(d.getId() + " " + d.getAx() + " " + d.getAy()).append("\n");
-         * }
-         * return s.toString();
-         * 
-         */
+        StringBuilder s = new StringBuilder();
+        for (Snake snake : snakeList) {
+            List<String> actions = snake.getActions();
+            if (actions.isEmpty()) {
+                s.append("\n");
+            } else {
+                for (int i = 0; i < actions.size(); i++) {
+                    s.append(actions.get(0) + " ");
+                }
+                s.append("\n");
+            }
+        }
+        return s.toString();
     }
 }

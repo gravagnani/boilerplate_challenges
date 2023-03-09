@@ -129,4 +129,8 @@ public class SolverBase implements Solver {
         return maxCoords;
     }
 
+    public Pair<Integer, Integer> nextWormhole() {
+
+    }
+
 }

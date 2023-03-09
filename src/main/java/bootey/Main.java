@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class Main {
 
-    private static final boolean singleFile = true;
+    private static final boolean singleFile = false;
     private static final Integer indexFileToProcess = 3;
 
     public static void main(String[] args) {

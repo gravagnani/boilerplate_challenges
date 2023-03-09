@@ -52,7 +52,7 @@ public class Solver {
         }
 
         Collections.shuffle(challenge.getCoordinates());
-        challenge.setCoordinates(challenge.getCoordinates().subList(0, challenge.getAntennaList().size() * 5));
+        challenge.setCoordinates(challenge.getCoordinates().subList(0, challenge.getAntennaList().size() * 10));
 
         int counter = 0;
         for (Antenna a : challenge.getAntennaList()) {
@@ -96,9 +96,9 @@ public class Solver {
 
     private static Comparator<Antenna> comparatorAntenna() {
         return (d1, d2) -> {
-            if (d2.getAc() > d1.getAc()) {
+            if (d2.getAc() * d2.getAr() > d1.getAc() * d1.getAr()) {
                 return 1;
-            } else if (d2.getAc() < d1.getAc()) {
+            } else if (d2.getAc() * d2.getAr() < d1.getAc() * d1.getAr()) {
                 return -1;
             }
             return 0;

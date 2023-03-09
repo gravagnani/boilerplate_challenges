@@ -3,6 +3,7 @@ package bootey.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.javatuples.Pair;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public class ChallengeModel {
     private Integer nSnakes; // numero snakes
 
     private List<Snake> snakeList;
+
+    private List<Pair<Integer, Integer>> wormholeList;
 
     private Integer[][] matrix;
 

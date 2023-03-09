@@ -3,6 +3,7 @@ package bootey.solvers;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import org.javatuples.Pair;
 
@@ -35,27 +36,24 @@ public class SolverBase implements Solver {
                 // TODO: conta quanti punti facciamo
 
                 if (nm.getPointsValue() == Integer.MIN_VALUE) {
-                    s.setActions(new ArrayList<>());
-                    break;
+                    s.setActions(new ArrayList<>()); // svuotiamo
+                    throw new RuntimeException("da fare svuotamento");
+                    // break;
                 }
 
                 coord[0] = nm.getCoordMove().getValue0();
                 coord[1] = nm.getCoordMove().getValue1();
-                s.getActions().add("" + coord[0]);
-                s.getActions().add("" + coord[1]);
+                s.getActions().add(nm.getAction());
                 if (nm.getPointsValue() == null) {
                     // scegli wh
+                    Pair<Integer, Integer> w = nextWormhole(coord, challenge.getWormholeList());
+                    coord[0] = w.getValue0();
+                    coord[1] = w.getValue1();
+                    s.getActions().add("" + coord[0]);
+                    s.getActions().add("" + coord[1]);
                 } else {
                     challenge.getMatrix()[coord[0]][coord[1]] = Integer.MIN_VALUE;
                 }
-                s.getActions().add("" + nm.getAction());
-                // aggiungi mossa a s
-
-                // se numero
-                // marchi casella visitata
-                // aggiorna coord
-
-                // se wormhole
             }
 
         }
@@ -129,8 +127,13 @@ public class SolverBase implements Solver {
         return maxCoords;
     }
 
-    public Pair<Integer, Integer> nextWormhole() {
-
+    public Pair<Integer, Integer> nextWormhole(int[] coords, List<Pair<Integer, Integer>> wormholes) {
+        while (true) {
+            int nextInt = new Random().nextInt(wormholes.size());
+            if (wormholes.get(nextInt).getValue0() != coords[0] || wormholes.get(nextInt).getValue1() != coords[1]) {
+                return wormholes.get(nextInt);
+            }
+        }
     }
 
 }

@@ -32,7 +32,13 @@ public class SolverBase implements Solver {
             for (int i = 1; i < s.getLen(); i++) {
                 Pair<Integer, Integer> c = getNextMove(coord, challenge.getMatrix());
                 // TODO: conta quanti punti facciamo
+                // aggiungi mossa a s
 
+                // se numero
+                // marchi casella visitata
+                // aggiorna coord
+
+                // se wormhole
             }
 
         }

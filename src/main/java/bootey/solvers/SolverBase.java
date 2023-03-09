@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import bootey.dto.NextMove;
 import org.javatuples.Pair;
 
 import bootey.dto.ChallengeModel;
+import bootey.dto.NextMove;
 import bootey.dto.Snake;
 import lombok.extern.log4j.Log4j2;
 
@@ -31,8 +31,18 @@ public class SolverBase implements Solver {
             s.getActions().add("" + coord[1]);
             challenge.getMatrix()[coord[0]][coord[1]] = Integer.MIN_VALUE;
             for (int i = 1; i < s.getLen(); i++) {
-                Pair<Integer, Integer> c = getNextMove(coord, challenge.getMatrix());
+                NextMove nm = getNextMove(coord, challenge.getMatrix());
                 // TODO: conta quanti punti facciamo
+                coord[0] = nm.getCoordMove().getValue0();
+                coord[1] = nm.getCoordMove().getValue1();
+                s.getActions().add("" + coord[0]);
+                s.getActions().add("" + coord[1]);
+                if (nm.getPointsValue() == null) {
+                    // scegli wh
+                } else {
+                    challenge.getMatrix()[coord[0]][coord[1]] = Integer.MIN_VALUE;
+                }
+                s.getActions().add("" + nm.getAction());
                 // aggiungi mossa a s
 
                 // se numero
@@ -83,35 +93,34 @@ public class SolverBase implements Solver {
         int width = matrix.length;
         int height = matrix[0].length;
 
-        List<Pair<Integer, Integer>> coords = new ArrayList<>();
+        List<NextMove> coords = new ArrayList<>();
 
-        coords.add(new Pair<>((x - 1 + width) % width, y));
-        coords.add(new Pair<>((x + 1 + width) % width, y));
-        coords.add(new Pair<>(x, (y - 1 + height) % height));
-        coords.add(new Pair<>(x, (y + 1 + height) % height));
+        coords.add(new NextMove(new Pair<>((x - 1 + width) % width, y), "L", 0));
+        coords.add(new NextMove(new Pair<>((x + 1 + width) % width, y), "R", 0));
+        coords.add(new NextMove(new Pair<>(x, (y - 1 + height) % height), "U", 0));
+        coords.add(new NextMove(new Pair<>(x, (y + 1 + height) % height), "D", 0));
 
         int max = Integer.MAX_VALUE;
-        Pair<Integer, Integer> maxCoords = null;
-        for (Pair<Integer, Integer> c : coords) {
+        NextMove maxCoords = null;
+        for (NextMove nm : coords) {
+            Pair<Integer, Integer> c = nm.getCoordMove();
             Integer val = matrix[c.getValue0()][c.getValue1()];
+            Boolean isWH = false;
             if (val == null) {
+                isWH = true;
                 val = 0;
             }
             if (val > max) {
                 max = val;
-                maxCoords = c;
+                maxCoords = nm;
+                maxCoords.setPointsValue(isWH ? null : val);
             }
         }
 
         if (maxCoords == null)
             throw new RuntimeException();
 
-
-        NextMove res = new NextMove();
-        res.setCoordMove(maxCoords);
-        res.setAction("TODO");
-        res.setPointsValue(0); //TODO:
-        return res;
+        return maxCoords;
     }
 
 }

@@ -16,25 +16,30 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChallengeModel {
 
-    private Integer W; // asse x
-    private Integer H; // asse Y
-    private Integer N; // numero Building
-    private Integer M; // numero antenne
-    private Integer R; // reward // non ci serve
+    private Integer nCol; // numero colonne
+    private Integer nRow; // numero righe
+    private Integer nSnakes; // numero snakes
 
-    private List<Antenna> antennaList;
+    private List<Snake> snakeList;
+
+    private Integer[][] matrix;
     private List<Building> buildingList;
     private Map<Pair<Integer, Integer>, Building> buildingListMap = new HashMap<>();
     List<Pair<Integer, Integer>> coordinates = new ArrayList<>();
 
-    private List<Antenna> placedAntennaList = new ArrayList<>();
+    private List<Snake> placedAntennaList = new ArrayList<>();
 
     public String toChallengeOutput() {
+
+        return "";
+        /*
         StringBuilder s = new StringBuilder();
         s.append(placedAntennaList.size()).append("\n");
-        for (Antenna d : placedAntennaList) {
+        for (Snake d : placedAntennaList) {
             s.append(d.getId() + " " + d.getAx() + " " + d.getAy()).append("\n");
         }
         return s.toString();
+
+         */
     }
 }

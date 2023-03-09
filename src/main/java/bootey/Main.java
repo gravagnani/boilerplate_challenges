@@ -16,9 +16,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class Main {
 
-    private static boolean precessAll = true; // if enabled all input files are processed
-    private static List<Integer> indexFileToProcess = Arrays.asList(3); // indexes of input files to be processed
-    private static String solverName = "SolverBase"; // name of the solver to use, must match the solver class name
+    private static boolean precessAll = false; // if enabled all input files are processed
+    private static List<Integer> indexFileToProcess = Arrays.asList(0); // indexes of input files to be processed
+    private static String solverName = "Solver1"; // name of the solver to use, must match the solver class name
 
     public static void main(String[] args) {
         includeHighLevelSkill();

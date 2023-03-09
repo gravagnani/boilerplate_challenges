@@ -2,9 +2,9 @@ package bootey.solvers;
 
 import java.util.Map;
 
+import bootey.dto.Snake;
 import org.javatuples.Pair;
 
-import bootey.dto.Antenna;
 import bootey.dto.Building;
 import bootey.dto.ChallengeModel;
 import lombok.extern.log4j.Log4j2;
@@ -12,12 +12,14 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class Solver1 implements Solver {
     public void solve(ChallengeModel challenge) {
+
+        /*
         for (Building b : challenge.getBuildingList()) {
             challenge.getBuildingListMap().put(new Pair<Integer, Integer>(b.getBx(), b.getBy()), b);
         }
 
-        for (int i = 0; i < challenge.getH(); i += 15) {
-            for (int j = 0; j < challenge.getW(); j += 15) {
+        for (int i = 0; i < challenge.getnRow(); i += 15) {
+            for (int j = 0; j < challenge.getnCol(); j += 15) {
                 challenge.getCoordinates().add(new Pair<Integer, Integer>(i, j));
             }
         }
@@ -27,10 +29,10 @@ public class Solver1 implements Solver {
         // challenge.getAntennaList().size() * 5));
 
         int counter = 0;
-        for (Antenna a : challenge.getAntennaList()) {
+        for (Snake a : challenge.getSnakeList()) {
             counter++;
             if (counter % 10 == 0) {
-                log.info("Antenna " + (counter) + "  / " + challenge.getAntennaList().size());
+                log.info("Snake " + (counter) + "  / " + challenge.getSnakeList().size());
             }
 
             int[] scores = challenge.getCoordinates().parallelStream().mapToInt(el -> {
@@ -55,10 +57,13 @@ public class Solver1 implements Solver {
             }
         }
 
+
+         */
         log.info("Solved");
     }
 
-    public static int scoreCalculator(Antenna antenna, Map<Pair<Integer, Integer>, Building> buildings) {
+    public static Integer scoreCalculator(Snake antenna, Map<Pair<Integer, Integer>, Building> buildings) {
+        /*
         if (!(antenna.getAx() != null && antenna.getAy() != null))
             throw new RuntimeException("Errore");
         int score = 0;
@@ -78,7 +83,9 @@ public class Solver1 implements Solver {
             }
         }
 
-        return score;
+         */
+
+        return null;
     }
 
 }

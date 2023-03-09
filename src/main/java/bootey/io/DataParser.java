@@ -1,11 +1,5 @@
 package bootey.io;
 
-import bootey.dto.Snake;
-import bootey.dto.Building;
-import bootey.dto.ChallengeModel;
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -18,6 +12,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import bootey.dto.ChallengeModel;
+import bootey.dto.Snake;
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class DataParser {
@@ -49,7 +48,7 @@ public class DataParser {
         splitData = data.split(" ");
         List<Snake> snakeList = new ArrayList<>();
         for (int si = 0; si < challenge.getNSnakes(); si++) {
-            snakeList.add(new Snake(Integer.parseInt(splitData[si])));
+            snakeList.add(new Snake(si, Integer.parseInt(splitData[si])));
         }
         challenge.setSnakeList(snakeList);
 
@@ -61,8 +60,8 @@ public class DataParser {
             for (int j = 0; j < challenge.getNCol(); j++) {
                 Integer i1;
                 try {
-                     i1 = Integer.parseInt(splitData[j]);
-                } catch (NumberFormatException e ) {
+                    i1 = Integer.parseInt(splitData[j]);
+                } catch (NumberFormatException e) {
                     i1 = null;
                 }
                 matrix[i][j] = i1;

@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
@@ -14,8 +16,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class Main {
 
-    private static final boolean singleFile = true;
-    private static final Integer indexFileToProcess = 3;
+    private static boolean precessAll = true; // if enabled all input files are processed
+    private static List<Integer> indexFileToProcess = Arrays.asList(3); // indexes of input files to be processed
+    private static String solverName = "SolverBase"; // name of the solver to use, must match the solver class name
 
     public static void main(String[] args) {
         includeHighLevelSkill();
@@ -25,19 +28,18 @@ public class Main {
         File[] inputFilesList = Objects.requireNonNull(inputFiles.listFiles());
         Arrays.sort(inputFilesList);
 
-        if (singleFile) {
-            File file = inputFilesList[indexFileToProcess];
-            new Thread(new GameLauncher(file)).start();
-            return;
+        if (precessAll) {
+            indexFileToProcess = IntStream.range(0, inputFilesList.length).boxed().toList();
         }
 
-        for (File fileEntry : inputFilesList) {
-            if (!fileEntry.isFile()) {
-                log.warn("Skipped element [{}] of fileList since it was not a file .", fileEntry.getName());
-                continue;
+        indexFileToProcess.stream().forEach(i -> {
+            File file = inputFilesList[i];
+            if (!file.isFile()) {
+                log.warn("Skipped element [{}] of indexFileToProcess since it was not a file .", file.getName());
+                return;
             }
-            new Thread(new GameLauncher(fileEntry)).start();
-        }
+            new Thread(new GameLauncher(file, solverName)).start();
+        });
     }
 
     private static void includeHighLevelSkill() {

@@ -33,6 +33,12 @@ public class SolverBase implements Solver {
             for (int i = 1; i < s.getLen(); i++) {
                 NextMove nm = getNextMove(coord, challenge.getMatrix());
                 // TODO: conta quanti punti facciamo
+
+                if (nm.getPointsValue() == Integer.MIN_VALUE) {
+                    s.setActions(new ArrayList<>());
+                    break;
+                }
+
                 coord[0] = nm.getCoordMove().getValue0();
                 coord[1] = nm.getCoordMove().getValue1();
                 s.getActions().add("" + coord[0]);
@@ -100,7 +106,7 @@ public class SolverBase implements Solver {
         coords.add(new NextMove(new Pair<>(x, (y - 1 + height) % height), "U", 0));
         coords.add(new NextMove(new Pair<>(x, (y + 1 + height) % height), "D", 0));
 
-        int max = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
         NextMove maxCoords = null;
         for (NextMove nm : coords) {
             Pair<Integer, Integer> c = nm.getCoordMove();
@@ -110,7 +116,7 @@ public class SolverBase implements Solver {
                 isWH = true;
                 val = 0;
             }
-            if (val > max) {
+            if (val >= max) {
                 max = val;
                 maxCoords = nm;
                 maxCoords.setPointsValue(isWH ? null : val);

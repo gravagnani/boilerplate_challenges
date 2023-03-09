@@ -88,7 +88,7 @@ public class DataParser {
         return challenge;
     }
 
-    public static void toFile(ChallengeModel challenge, String outputDirPrefix, String fileName) {
+    public static void toFile(ChallengeModel challenge, String outputDirPrefix, String fileName, String solverName) {
         String outputDirStr = Constants.OUTPUT_FOLDER + "/" + outputDirPrefix;
 
         File outputDir = new File(outputDirStr);
@@ -104,7 +104,7 @@ public class DataParser {
             log.error("error: ", e);
         }
 
-        String outZipFile = outputDirStr + "/" + fileName + "_test.zip";
+        String outZipFile = outputDirStr + "/bootey_" + solverName + ".zip";
         zipSourceCode(outZipFile, "pom.xml", "src");
     }
 

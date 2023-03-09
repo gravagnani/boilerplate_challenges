@@ -44,7 +44,7 @@ public class GameLauncher implements Runnable {
             solver.solve(challenge);
 
             // 3. print to file solution
-            DataParser.toFile(challenge, outputDirPrefix, file.getName());
+            DataParser.toFile(challenge, outputDirPrefix, file.getName(), solverName);
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                 | InvocationTargetException e) {

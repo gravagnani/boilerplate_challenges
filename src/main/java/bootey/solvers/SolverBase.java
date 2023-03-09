@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import bootey.dto.NextMove;
 import org.javatuples.Pair;
 
 import bootey.dto.ChallengeModel;
@@ -75,7 +76,7 @@ public class SolverBase implements Solver {
 
     }
 
-    public static Pair<Integer, Integer> getNextMove(int[] coord, Integer[][] matrix) {
+    public static NextMove getNextMove(int[] coord, Integer[][] matrix) {
         int x = coord[0];
         int y = coord[1];
 
@@ -105,7 +106,12 @@ public class SolverBase implements Solver {
         if (maxCoords == null)
             throw new RuntimeException();
 
-        return maxCoords;
+
+        NextMove res = new NextMove();
+        res.setCoordMove(maxCoords);
+        res.setAction("TODO");
+        res.setPointsValue(0); //TODO:
+        return res;
     }
 
 }

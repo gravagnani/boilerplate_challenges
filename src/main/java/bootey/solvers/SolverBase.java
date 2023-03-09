@@ -30,20 +30,32 @@ public class SolverBase implements Solver {
             int[] coord = getMaxScoreCoords(challenge.getMatrix());
             s.getActions().add("" + coord[0]);
             s.getActions().add("" + coord[1]);
+            s.getMoves().add(new NextMove(new Pair<Integer, Integer>(coord[0], coord[1]), "S",
+                    challenge.getMatrix()[coord[0]][coord[1]]));
             challenge.getMatrix()[coord[0]][coord[1]] = Integer.MIN_VALUE;
             for (int i = 1; i < s.getLen(); i++) {
                 NextMove nm = getNextMove(coord, challenge.getMatrix());
                 // TODO: conta quanti punti facciamo
 
                 if (nm.getPointsValue() == Integer.MIN_VALUE) {
+
+                    for (NextMove nmTemp : s.getMoves()) {
+                        if (nmTemp.getPointsValue() != null) {
+                            challenge.getMatrix()[nmTemp.getCoordMove().getValue0()][nmTemp.getCoordMove()
+                                    .getValue1()] = nmTemp
+                                            .getPointsValue();
+                        }
+                    }
                     s.setActions(new ArrayList<>()); // svuotiamo
-                    throw new RuntimeException("da fare svuotamento");
-                    // break;
+                    s.setMoves(new ArrayList<>()); // svuotiamo
+                    // throw new RuntimeException("da fare svuotamento");
+                    break;
                 }
 
                 coord[0] = nm.getCoordMove().getValue0();
                 coord[1] = nm.getCoordMove().getValue1();
                 s.getActions().add(nm.getAction());
+                s.getMoves().add(nm);
                 if (nm.getPointsValue() == null) {
                     // scegli wh
                     Pair<Integer, Integer> w = nextWormhole(coord, challenge.getWormholeList());
@@ -51,6 +63,8 @@ public class SolverBase implements Solver {
                     coord[1] = w.getValue1();
                     s.getActions().add("" + coord[0]);
                     s.getActions().add("" + coord[1]);
+                    s.getMoves().add(new NextMove(new Pair<Integer, Integer>(coord[0], coord[1]), "W",
+                            challenge.getMatrix()[coord[0]][coord[1]]));
                 } else {
                     challenge.getMatrix()[coord[0]][coord[1]] = Integer.MIN_VALUE;
                 }
@@ -99,10 +113,10 @@ public class SolverBase implements Solver {
 
         List<NextMove> coords = new ArrayList<>();
 
-        coords.add(new NextMove(new Pair<>((x - 1 + width) % width, y), "L", 0));
-        coords.add(new NextMove(new Pair<>((x + 1 + width) % width, y), "R", 0));
-        coords.add(new NextMove(new Pair<>(x, (y - 1 + height) % height), "U", 0));
-        coords.add(new NextMove(new Pair<>(x, (y + 1 + height) % height), "D", 0));
+        coords.add(new NextMove(new Pair<>((x - 1 + width) % width, y), "U", 0));
+        coords.add(new NextMove(new Pair<>((x + 1 + width) % width, y), "D", 0));
+        coords.add(new NextMove(new Pair<>(x, (y - 1 + height) % height), "L", 0));
+        coords.add(new NextMove(new Pair<>(x, (y + 1 + height) % height), "R", 0));
 
         int max = Integer.MIN_VALUE;
         NextMove maxCoords = null;

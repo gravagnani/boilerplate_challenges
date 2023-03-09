@@ -13,11 +13,12 @@ import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.javatuples.Pair;
+
 import bootey.dto.ChallengeModel;
 import bootey.dto.Snake;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
-import org.javatuples.Pair;
 
 @Log4j2
 public class DataParser {
@@ -66,7 +67,7 @@ public class DataParser {
                 } catch (NumberFormatException e) {
                     // wormhole
                     i1 = null;
-                    wormholeList.add(new Pair<>(i,j));
+                    wormholeList.add(new Pair<>(i, j));
                 }
                 matrix[i][j] = i1;
             }
@@ -77,13 +78,15 @@ public class DataParser {
 
         scanner.close();
         // to print matrix
-        log.debug("Printing matrix");
-        for (int i = 0; i < challenge.getNRow(); i++) {
-            for (int j = 0; j < challenge.getNCol(); j++) {
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println("\n");
-        }
+        /*
+         * log.debug("Printing matrix");
+         * for (int i = 0; i < challenge.getNRow(); i++) {
+         * for (int j = 0; j < challenge.getNCol(); j++) {
+         * System.out.print(matrix[i][j] + " ");
+         * }
+         * System.out.println("\n");
+         * }
+         */
         return challenge;
     }
 

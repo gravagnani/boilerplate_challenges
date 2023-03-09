@@ -14,6 +14,7 @@ public class Snake {
     private Integer id;
     private Integer len;
     private List<String> actions = new ArrayList<>();
+    private List<NextMove> moves = new ArrayList<>();
 
     public Snake(Integer id, Integer len) {
         this.id = id;

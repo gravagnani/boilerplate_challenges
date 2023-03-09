@@ -107,7 +107,10 @@ public class DataParser {
         }
 
         String outZipFile = outputDirStr + "/bootey_" + solverName + ".zip";
-        zipSourceCode(outZipFile, "pom.xml", "src");
+        zipSourceCode(outZipFile, "pom.xml", "src/main/java",
+                "src/main/resources/banner.txt",
+                "src/main/resources/log4j2.properties",
+                "src/main/resources/lombok.config");
     }
 
     private static void zipSourceCode(final String zipFilePath, final String... sourceDirPaths) {

@@ -52,7 +52,6 @@ public class DataParser {
         challenge.setM(Integer.parseInt(splitData[1]));
         challenge.setR(Integer.parseInt(splitData[2]));
 
-
         List<Building> buildings = new ArrayList<>();
         for (int i = 0; i < challenge.getN(); i++) {
             // first line
@@ -89,17 +88,15 @@ public class DataParser {
         return challenge;
     }
 
-    public static void toFile(ChallengeModel challenge, String fileName) {
+    public static void toFile(ChallengeModel challenge, String outputDirPrefix, String fileName, String solverName) {
+        String outputDirStr = Constants.OUTPUT_FOLDER + "/" + outputDirPrefix;
 
-        String prefix = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(new Date(System.currentTimeMillis()));
-        String outputFilename = prefix + "_" + fileName;
-
-        File directory = new File(Constants.OUTPUT_FOLDER);
-        if (!directory.exists()) {
-            directory.mkdir(); // create output_folder if it doesn't exist
+        File outputDir = new File(outputDirStr);
+        if (!outputDir.exists()) {
+            outputDir.mkdirs(); // create outputDir if it doesn't exist
         }
 
-        try (FileWriter writer = new FileWriter(new File(Constants.OUTPUT_FOLDER, outputFilename))) {
+        try (FileWriter writer = new FileWriter(new File(outputDirStr, fileName))) {
 
             writer.write(challenge.toChallengeOutput());
 
@@ -107,8 +104,8 @@ public class DataParser {
             log.error("error: ", e);
         }
 
-        String out = Constants.OUTPUT_FOLDER + "/" + prefix + "_test.zip";
-        zipSourceCode(out, "pom.xml", "src");
+        String outZipFile = outputDirStr + "/bootey_" + solverName + ".zip";
+        zipSourceCode(outZipFile, "pom.xml", "src");
     }
 
     private static void zipSourceCode(final String zipFilePath, final String... sourceDirPaths) {

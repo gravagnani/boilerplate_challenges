@@ -34,11 +34,11 @@ public class ChallengeModel {
             } else {
                 for (int i = 0; i < actions.size(); i++) {
                     if (actions.get(i).getAction().equals("S")) {
-                        s.append(actions.get(i).getCoordMove().getValue0() + " ");
                         s.append(actions.get(i).getCoordMove().getValue1() + " ");
+                        s.append(actions.get(i).getCoordMove().getValue0() + " ");
                     } else if (actions.get(i).getAction().equals("W")) {
-                        s.append(actions.get(i).getCoordMove().getValue0() + " ");
                         s.append(actions.get(i).getCoordMove().getValue1() + " ");
+                        s.append(actions.get(i).getCoordMove().getValue0() + " ");
                     } else {
                         s.append(actions.get(i).getAction() + " ");
                     }

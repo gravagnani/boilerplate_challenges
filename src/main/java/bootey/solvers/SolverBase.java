@@ -37,8 +37,8 @@ public class SolverBase implements Solver {
                 NextMove nm = getNextMove(coord, challenge.getMatrix());
                 // TODO: conta quanti punti facciamo
 
-                if (nm.getPointsValue() == Integer.MIN_VALUE) {
-
+                if (nm.getPointsValue() != null && nm.getPointsValue() == Integer.MIN_VALUE) {
+                    s.getMoves().remove(0);
                     for (NextMove nmTemp : s.getMoves()) {
                         if (nmTemp.getPointsValue() != null) {
                             challenge.getMatrix()[nmTemp.getCoordMove().getValue0()][nmTemp.getCoordMove()

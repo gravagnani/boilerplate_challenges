@@ -3,7 +3,6 @@ package bootey;
 import bootey.dto.ChallengeModel;
 import bootey.io.DataParser;
 import bootey.solvers.Solver;
-import bootey.solvers.SolverBase;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -47,7 +46,7 @@ public class GameLauncher implements Runnable {
             DataParser.toFile(challenge, outputDirPrefix, file.getName(), solverName);
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                | InvocationTargetException e) {
+                 | InvocationTargetException e) {
             log.info("Solver {}  Not Found", completeSolverName);
         }
 

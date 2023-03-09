@@ -1,6 +1,6 @@
 package bootey.io;
 
-import bootey.dto.Antenna;
+import bootey.dto.Snake;
 import bootey.dto.Building;
 import bootey.dto.ChallengeModel;
 import bootey.utils.Constants;
@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -42,49 +40,44 @@ public class DataParser {
         // first line
         data = scanner.nextLine();
         splitData = data.split(" ");
-        challenge.setW(Integer.parseInt(splitData[0]));
-        challenge.setH(Integer.parseInt(splitData[1]));
+        challenge.setNCol(Integer.parseInt(splitData[0]));
+        challenge.setNRow(Integer.parseInt(splitData[1]));
+        challenge.setNSnakes(Integer.parseInt(splitData[2]));
 
         // second line
         data = scanner.nextLine();
         splitData = data.split(" ");
-        challenge.setN(Integer.parseInt(splitData[0]));
-        challenge.setM(Integer.parseInt(splitData[1]));
-        challenge.setR(Integer.parseInt(splitData[2]));
+        List<Snake> snakeList = new ArrayList<>();
+        for (int si = 0; si < challenge.getNSnakes(); si++) {
+            snakeList.add(new Snake(Integer.parseInt(splitData[si])));
+        }
+        challenge.setSnakeList(snakeList);
 
-        List<Building> buildings = new ArrayList<>();
-        for (int i = 0; i < challenge.getN(); i++) {
-            // first line
+        Integer[][] matrix = new Integer[challenge.getNRow()][challenge.getNCol()];
+        for (int i = 0; i < challenge.getNRow(); i++) {
+
             data = scanner.nextLine();
             splitData = data.split(" ");
-            // log.debug("Demon {}", libIxd);
-
-            Integer x = Integer.parseInt(splitData[0]);
-            Integer y = Integer.parseInt(splitData[1]);
-            Integer l = Integer.parseInt(splitData[2]);
-            Integer c = Integer.parseInt(splitData[3]);
-
-            buildings.add(new Building(x, y, l, c));
-
-        }
-        challenge.setBuildingList(buildings);
-
-        List<Antenna> antennas = new ArrayList<>();
-        for (int i = 0; i < challenge.getM(); i++) {
-            // first line
-            data = scanner.nextLine();
-            splitData = data.split(" ");
-            // log.debug("Demon {}", libIxd);
-
-            Integer r = Integer.parseInt(splitData[0]);
-            Integer c = Integer.parseInt(splitData[1]);
-
-            antennas.add(new Antenna(i, r, c));
+            for (int j = 0; j < challenge.getNCol(); j++) {
+                Integer i1;
+                try {
+                     i1 = Integer.parseInt(splitData[j]);
+                } catch (NumberFormatException e ) {
+                    i1 = null;
+                }
+                matrix[i][j] = i1;
+            }
 
         }
-        challenge.setAntennaList(antennas);
+        challenge.setMatrix(matrix);
 
         scanner.close();
+        for (int i = 0; i < challenge.getNRow(); i++) {
+            for (int j = 0; j < challenge.getNCol(); j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println("\n");
+        }
         return challenge;
     }
 

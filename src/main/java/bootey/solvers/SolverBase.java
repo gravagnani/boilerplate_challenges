@@ -27,7 +27,8 @@ public class SolverBase implements Solver {
         challenge.getSnakeList().sort(Comparator.comparing(Snake::getLen).reversed());
 
         for (Snake s : challenge.getSnakeList()) {
-            int[] coord = getMaxScoreCoords(challenge.getMatrix());
+            // int[] coord = getMaxScoreCoords(challenge.getMatrix());
+            int[] coord = getMaxScoreCoords(challenge.getMatrix(), s.getLen());
             s.getActions().add("" + coord[0]);
             s.getActions().add("" + coord[1]);
             s.getMoves().add(new NextMove(new Pair<Integer, Integer>(coord[0], coord[1]), "S",
@@ -83,25 +84,54 @@ public class SolverBase implements Solver {
         return null;
     }
 
-    public static int[] getMaxScoreCoords(Integer[][] matrix) {
+    // public static int[] getMaxScoreCoords(Integer[][] matrix) {
 
+    // int maxVal = Integer.MIN_VALUE;
+    // int[] maxIndex = new int[2];
+
+    // for (int i = 0; i < matrix.length; i++) {
+    // for (int j = 0; j < matrix[0].length; j++) {
+    // if (matrix[i][j] == null)
+    // continue;
+    // if (matrix[i][j] > maxVal) {
+    // maxVal = matrix[i][j];
+    // maxIndex[0] = i;
+    // maxIndex[1] = j;
+    // }
+    // }
+    // }
+
+    // return maxIndex;
+
+    // }
+
+    public static int[] getMaxScoreCoords(Integer[][] matrix, Integer len) {
         int maxVal = Integer.MIN_VALUE;
         int[] maxIndex = new int[2];
-
+        int width = matrix.length;
+        int height = matrix[0].length;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == null)
+                if (matrix[i][j] == null || matrix[i][j] == Integer.MIN_VALUE)
                     continue;
-                if (matrix[i][j] > maxVal) {
-                    maxVal = matrix[i][j];
+                var total = 0;
+                for (int x = 0; x < 3; x++) {
+                    for (int y = 0; y < 3; y++) {
+                        if (matrix[(i - x + width) % width][(j - y + height) % height] == null
+                                || matrix[(i + x + width) % width][(j + y + height) % height] == null)
+                            continue;
+                        total += matrix[(i - x + width) % width][(j - y + height) % height] / (x + y + 1);
+                        total += matrix[(i + x + width) % width][(j + y + height) % height] / (x + y + 1);
+                    }
+                }
+                if (total > maxVal) {
+                    maxVal = total;
                     maxIndex[0] = i;
                     maxIndex[1] = j;
                 }
             }
         }
-
         return maxIndex;
-
     }
 
     public static NextMove getNextMove(int[] coord, Integer[][] matrix) {

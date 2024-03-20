@@ -1,5 +1,9 @@
 package bootey;
 
+import bootey.solvers.Solver1;
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
@@ -10,15 +14,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
-
 @Log4j2
 public class Main {
 
-    private static boolean precessAll = true; // if enabled all input files are processed
+    private static boolean processAll = false; // if enabled all input files are processed
     private static List<Integer> indexFileToProcess = Arrays.asList(0); // indexes of input files to be processed
-    private static String solverName = "SolverBase"; // name of the solver to use, must match the solver class name
+    private static String solverName = Solver1.class.getSimpleName(); // name of the solver to use, must match the solver class name
 
     public static void main(String[] args) {
         includeHighLevelSkill();
@@ -28,7 +29,7 @@ public class Main {
         File[] inputFilesList = Objects.requireNonNull(inputFiles.listFiles());
         Arrays.sort(inputFilesList);
 
-        if (precessAll) {
+        if (processAll) {
             indexFileToProcess = IntStream.range(0, inputFilesList.length).boxed().toList();
         }
 

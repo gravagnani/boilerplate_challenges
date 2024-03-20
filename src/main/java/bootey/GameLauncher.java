@@ -18,16 +18,15 @@ import java.util.Date;
 @AllArgsConstructor
 public class GameLauncher implements Runnable {
     private final File file;
-    private final String solverName;
+    private final Class<? extends Solver> solverClass;
 
     @Override
     public void run() {
         log.info("--- Started thread with file [{}]", file.getName());
         long startTime = System.currentTimeMillis();
-
-        final String completeSolverName = "bootey.solvers." + solverName;
+        final String solverName = solverClass.getSimpleName();
         final String outputDirPrefix = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-                .format(new Date(System.currentTimeMillis())) + "_" + solverName;
+                .format(new Date()) + "_" + solverName;
 
         try {
 
@@ -35,9 +34,9 @@ public class GameLauncher implements Runnable {
             ChallengeModel challenge = DataParser.fromFile(file);
 
             // 2. retrieve solver and solve the challenge (updating challenge model)
-            Constructor<?>[] solverConstructors = Class.forName(completeSolverName).getDeclaredConstructors();
+            Constructor<?>[] solverConstructors = solverClass.getDeclaredConstructors();
             if (solverConstructors.length != 1) {
-                log.error("Solver {} has more than one constructor", completeSolverName);
+                log.warn("Solver {} has more than one constructor", solverName);
             }
             Solver solver = (Solver) solverConstructors[0].newInstance();
             solver.solve(challenge);
@@ -45,9 +44,9 @@ public class GameLauncher implements Runnable {
             // 3. print to file solution
             DataParser.toFile(challenge, outputDirPrefix, file.getName(), solverName);
 
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+        } catch (InstantiationException | IllegalAccessException
                  | InvocationTargetException e) {
-            log.error("Solver {}  Not Found", completeSolverName);
+            log.error("Solver {} Not Found", solverName);
         }
 
         log.info("--- Completed thread in {}ms ", (System.currentTimeMillis() - startTime));

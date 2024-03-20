@@ -1,6 +1,8 @@
 package bootey;
 
+import bootey.solvers.Solver;
 import bootey.solvers.Solver1;
+import bootey.solvers.SolverBase;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,7 +21,7 @@ public class Main {
 
     private static boolean processAll = false; // if enabled all input files are processed
     private static List<Integer> indexFileToProcess = Arrays.asList(0); // indexes of input files to be processed
-    private static String solverName = Solver1.class.getSimpleName(); // name of the solver to use, must match the solver class name
+    private static final Class<? extends Solver> SOLVER = SolverBase.class; // name of the solver to use
 
     public static void main(String[] args) {
         includeHighLevelSkill();
@@ -39,7 +41,7 @@ public class Main {
                 log.warn("Skipped element [{}] of indexFileToProcess since it was not a file .", file.getName());
                 return;
             }
-            new Thread(new GameLauncher(file, solverName)).start();
+            new Thread(new GameLauncher(file, SOLVER)).start();
         });
     }
 

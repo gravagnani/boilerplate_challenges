@@ -37,7 +37,7 @@ public class GameLauncher implements Runnable {
             // 2. retrieve solver and solve the challenge (updating challenge model)
             Constructor<?>[] solverConstructors = Class.forName(completeSolverName).getDeclaredConstructors();
             if (solverConstructors.length != 1) {
-                log.info("Solver {} has more than one constructor", completeSolverName);
+                log.error("Solver {} has more than one constructor", completeSolverName);
             }
             Solver solver = (Solver) solverConstructors[0].newInstance();
             solver.solve(challenge);
@@ -47,7 +47,7 @@ public class GameLauncher implements Runnable {
 
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
                  | InvocationTargetException e) {
-            log.info("Solver {}  Not Found", completeSolverName);
+            log.error("Solver {}  Not Found", completeSolverName);
         }
 
         log.info("--- Completed thread in {}ms ", (System.currentTimeMillis() - startTime));

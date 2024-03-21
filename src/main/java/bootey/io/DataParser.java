@@ -1,5 +1,12 @@
 package bootey.io;
 
+import bootey.dto.ChallengeModel;
+import bootey.dto.GoldenPoint;
+import bootey.dto.SilverPoint;
+import bootey.dto.Tile;
+import bootey.utils.Constants;
+import lombok.extern.log4j.Log4j2;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -12,12 +19,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-
-import bootey.dto.*;
-import org.javatuples.Pair;
-
-import bootey.utils.Constants;
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class DataParser {
@@ -40,7 +41,10 @@ public class DataParser {
         // first line
         data = scanner.nextLine();
         splitData = data.split(" ");
-        challenge.setNCol(Integer.parseInt(splitData[0]));
+
+        // for the input 00 there's a strange character at the beginning of the file, so we clean it.
+        String nColString = splitData[0].replaceAll("\\D+", "");
+        challenge.setNCol(Integer.parseInt(nColString));
         challenge.setNRow(Integer.parseInt(splitData[1]));
         challenge.setNGoldenPoints(Integer.parseInt(splitData[2]));
         challenge.setNSilverPoints(Integer.parseInt(splitData[3]));
@@ -74,16 +78,6 @@ public class DataParser {
         challenge.setTiles(tiles);
 
         scanner.close();
-        // to print matrix
-        /*
-         * log.debug("Printing matrix");
-         * for (int i = 0; i < challenge.getNRow(); i++) {
-         * for (int j = 0; j < challenge.getNCol(); j++) {
-         * System.out.print(matrix[i][j] + " ");
-         * }
-         * System.out.println("\n");
-         * }
-         */
         return challenge;
     }
 

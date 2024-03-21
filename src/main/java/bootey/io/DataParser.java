@@ -4,6 +4,7 @@ import bootey.dto.ChallengeModel;
 import bootey.dto.GoldenPoint;
 import bootey.dto.SilverPoint;
 import bootey.dto.Tile;
+import bootey.enums.TileType;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
 
@@ -14,10 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -73,7 +71,15 @@ public class DataParser {
         for (int si = 0; si < challenge.getNTiles(); si++) {
             data = scanner.nextLine();
             splitData = data.split(" ");
-            Tile tile = new Tile(splitData[0], Integer.parseInt(splitData[1]), Integer.parseInt(splitData[2]));
+            String typeSplit = splitData[0];
+
+            TileType type = Arrays.stream(TileType.values())
+                    .filter(t -> t.getDefinition().equals(typeSplit))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid TileType definition: " + typeSplit));
+
+            Tile tile = new Tile(type, Integer.parseInt(splitData[1]), Integer.parseInt(splitData[2]));
+
             tiles.add(tile);
         }
 

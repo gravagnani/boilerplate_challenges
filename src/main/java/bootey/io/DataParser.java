@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
@@ -75,6 +76,8 @@ public class DataParser {
             Tile tile = new Tile(splitData[0], Integer.parseInt(splitData[1]), Integer.parseInt(splitData[2]));
             tiles.add(tile);
         }
+
+        tiles.sort(Comparator.comparingInt(Tile::getCost));
         challenge.setTiles(tiles);
 
         scanner.close();

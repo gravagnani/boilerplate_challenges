@@ -1,12 +1,10 @@
 package bootey.dto;
 
-import java.util.List;
-
-import org.javatuples.Pair;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,21 +13,27 @@ public class ChallengeModel {
 
     private Integer nCol; // numero colonne
     private Integer nRow; // numero righe
-    private Integer nSnakes; // numero snakes
+    private Integer nGoldenPoints; // numero golden
+    private Integer nSilverPoints; // numero silver
+    private Integer nTiles; // numero silver
 
-    private List<Snake> snakeList;
+    private List<GoldenPoint> goldenPoints;
+    private List<SilverPoint> silverPoints;
+    private List<Tile> tiles;
 
-    private List<Pair<Integer, Integer>> wormholeList;
+    private List<Tile> solutionTileList;
 
-    private Integer[][] matrix;
 
     public String toChallengeOutput() {
 
+
         StringBuilder s = new StringBuilder();
+           /*
         int S = 0;
-        for (Snake snake : snakeList) {
+        for (Tile tile : solutionTileList) {
+
             // List<String> actions = snake.getActions();
-            List<NextMove> actions = snake.getMoves();
+            List<NextMove> actions = tile.getMoves();
             if (actions.isEmpty()) {
                 s.append("\n");
             } else {
@@ -44,12 +48,15 @@ public class ChallengeModel {
                         s.append(actions.get(i).getAction() + " ");
                     }
                 }
-                if (S < snakeList.size() - 1) {
+                if (S < goldenPoints.size() - 1) {
                     s.append("\n");
                 }
             }
             S++;
         }
+
+
+         */
         return s.toString();
     }
 }

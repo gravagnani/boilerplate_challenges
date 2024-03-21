@@ -13,10 +13,9 @@ import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import bootey.dto.*;
 import org.javatuples.Pair;
 
-import bootey.dto.ChallengeModel;
-import bootey.dto.Snake;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
 
@@ -43,38 +42,36 @@ public class DataParser {
         splitData = data.split(" ");
         challenge.setNCol(Integer.parseInt(splitData[0]));
         challenge.setNRow(Integer.parseInt(splitData[1]));
-        challenge.setNSnakes(Integer.parseInt(splitData[2]));
+        challenge.setNGoldenPoints(Integer.parseInt(splitData[2]));
+        challenge.setNSilverPoints(Integer.parseInt(splitData[3]));
+        challenge.setNTiles(Integer.parseInt(splitData[4]));
 
-        // second line
-        data = scanner.nextLine();
-        splitData = data.split(" ");
-        List<Snake> snakeList = new ArrayList<>();
-        for (int si = 0; si < challenge.getNSnakes(); si++) {
-            snakeList.add(new Snake(si, Integer.parseInt(splitData[si])));
-        }
-        challenge.setSnakeList(snakeList);
-
-        Integer[][] matrix = new Integer[challenge.getNRow()][challenge.getNCol()];
-        List<Pair<Integer, Integer>> wormholeList = new ArrayList<>();
-        for (int i = 0; i < challenge.getNRow(); i++) {
-
+        List<GoldenPoint> goldenPoints = new ArrayList<>();
+        for (int si = 0; si < challenge.getNGoldenPoints(); si++) {
             data = scanner.nextLine();
             splitData = data.split(" ");
-            for (int j = 0; j < challenge.getNCol(); j++) {
-                Integer i1;
-                try {
-                    i1 = Integer.parseInt(splitData[j]);
-                } catch (NumberFormatException e) {
-                    // wormhole
-                    i1 = null;
-                    wormholeList.add(new Pair<>(i, j));
-                }
-                matrix[i][j] = i1;
-            }
-
+            GoldenPoint goldenPoint = new GoldenPoint(Integer.parseInt(splitData[0]), Integer.parseInt(splitData[1]));
+            goldenPoints.add(goldenPoint);
         }
-        challenge.setMatrix(matrix);
-        challenge.setWormholeList(wormholeList);
+        challenge.setGoldenPoints(goldenPoints);
+
+        List<SilverPoint> silverPoints = new ArrayList<>();
+        for (int si = 0; si < challenge.getNSilverPoints(); si++) {
+            data = scanner.nextLine();
+            splitData = data.split(" ");
+            SilverPoint silverPoint = new SilverPoint(Integer.parseInt(splitData[0]), Integer.parseInt(splitData[1]), Integer.parseInt(splitData[2]));
+            silverPoints.add(silverPoint);
+        }
+        challenge.setSilverPoints(silverPoints);
+
+        List<Tile> tiles = new ArrayList<>();
+        for (int si = 0; si < challenge.getNTiles(); si++) {
+            data = scanner.nextLine();
+            splitData = data.split(" ");
+            Tile tile = new Tile(splitData[0], Integer.parseInt(splitData[1]), Integer.parseInt(splitData[2]));
+            tiles.add(tile);
+        }
+        challenge.setTiles(tiles);
 
         scanner.close();
         // to print matrix

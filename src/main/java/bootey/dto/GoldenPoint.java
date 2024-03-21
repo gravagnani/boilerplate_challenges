@@ -2,14 +2,14 @@ package bootey.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class GoldenPoint {
+public class GoldenPoint extends Point {
 
-    private Integer x;
-    private Integer y;
-
+    public GoldenPoint(int x, int y) {
+        super(x, y);
+    }
 }

@@ -25,38 +25,12 @@ public class ChallengeModel {
 
 
     public String toChallengeOutput() {
-
-
         StringBuilder s = new StringBuilder();
-           /*
-        int S = 0;
+
         for (Tile tile : solutionTileList) {
 
-            // List<String> actions = snake.getActions();
-            List<NextMove> actions = tile.getMoves();
-            if (actions.isEmpty()) {
-                s.append("\n");
-            } else {
-                for (int i = 0; i < actions.size(); i++) {
-                    if (actions.get(i).getAction().equals("S")) {
-                        s.append(actions.get(i).getCoordMove().getValue1() + " ");
-                        s.append(actions.get(i).getCoordMove().getValue0() + " ");
-                    } else if (actions.get(i).getAction().equals("W")) {
-                        s.append(actions.get(i).getCoordMove().getValue1() + " ");
-                        s.append(actions.get(i).getCoordMove().getValue0() + " ");
-                    } else {
-                        s.append(actions.get(i).getAction() + " ");
-                    }
-                }
-                if (S < goldenPoints.size() - 1) {
-                    s.append("\n");
-                }
-            }
-            S++;
+            s.append(tile.getId() + " " + tile.getX() + " " + tile.getY() + "\n");
         }
-
-
-         */
         return s.toString();
     }
 }

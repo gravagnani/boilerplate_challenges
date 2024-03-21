@@ -1,7 +1,6 @@
 package bootey;
 
 import bootey.solvers.Solver;
-import bootey.solvers.Solver1;
 import bootey.solvers.SolverBase;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;

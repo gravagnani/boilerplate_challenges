@@ -8,21 +8,14 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import bootey.dto.ChallengeModel;
-import bootey.dto.NextMove;
-import bootey.dto.Snake;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class SolverBase implements Solver {
     public void solve(ChallengeModel challenge) {
 
+
         /*
-         * per ogni serpente
-         * prendo il serpente più lungo
-         * posiziono il serpente nel punto della mappa con maggiore score
-         * mi muovo nella direzione di maggiore score
-         * in caso di warmhole conto 0
-         */
 
         challenge.getSnakeList().sort(Comparator.comparing(Snake::getLen).reversed());
 
@@ -71,10 +64,13 @@ public class SolverBase implements Solver {
                 }
             }
 
+
+
         }
 
         // NON TOCCARE!
         challenge.getSnakeList().sort(Comparator.comparing(Snake::getId));
+     */
 
         log.info("Solved");
     }
@@ -134,6 +130,10 @@ public class SolverBase implements Solver {
         return maxIndex;
     }
 
+
+
+    /*
+
     public static NextMove getNextMove(int[] coord, Integer[][] matrix) {
         int x = coord[0];
         int y = coord[1];
@@ -170,6 +170,7 @@ public class SolverBase implements Solver {
 
         return maxCoords;
     }
+    */
 
     public Pair<Integer, Integer> nextWormhole(int[] coords, List<Pair<Integer, Integer>> wormholes) {
         while (true) {

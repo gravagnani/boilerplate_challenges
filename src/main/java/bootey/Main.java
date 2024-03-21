@@ -53,6 +53,6 @@ public class Main {
         }
         String banner = new BufferedReader(new InputStreamReader(inputStream))
                 .lines().collect(Collectors.joining("\n"));
-        System.err.println(banner); // print in red
+        System.err.println(banner); // print in red 
     }
 }

@@ -56,6 +56,9 @@ public class DataParser {
             GoldenPoint goldenPoint = new GoldenPoint(Integer.parseInt(splitData[0]), Integer.parseInt(splitData[1]));
             goldenPoints.add(goldenPoint);
         }
+
+        // sort by x desc
+        goldenPoints.sort((gp1, gp2) -> gp2.getX().compareTo(gp1.getX()));
         challenge.setGoldenPoints(goldenPoints);
 
         List<SilverPoint> silverPoints = new ArrayList<>();

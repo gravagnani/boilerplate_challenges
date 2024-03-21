@@ -85,7 +85,7 @@ public class SolverPoldone implements Solver {
         Point startPoint = new Point(goldenPoint.getX(), goldenPoint.getY());
         log.debug("Start point: {}", startPoint);
 
-        Point endPoint = goldenPoints.get(goldenPoints.size() - 1);
+        Point endPoint = goldenPoints.get(1);
         log.debug("End point: {}", endPoint);
 
 

@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 @Log4j2
 public class Main {
 
-    private static boolean processAll = false; // if enabled all input files are processed
+    private static boolean processAll = true; // if enabled all input files are processed
     private static List<Integer> indexFileToProcess = Arrays.asList(2); // indexes of input files to be processed
     private static final Class<? extends Solver> SOLVER = SolverPoldone.class; // name of the solver to use
 

@@ -25,7 +25,7 @@ public class Logic {
             switch (direction) {
                 case "up" -> {
                     // direzione verticale
-                    if (sp.getY() > startPoint.getY() + 1) {
+                    if (sp.getY() > startPoint.getY() + 3) {
                         continue;
                     }
                     //   silverPoints.removeIf(silverPoint -> silverPoint.getY() > startPoint.getY() + 1);
@@ -33,7 +33,7 @@ public class Logic {
                 }
                 case "left" -> {
                     // direzione orizzontale
-                    if (sp.getX() > startPoint.getX() + 1) {
+                    if (sp.getX() > startPoint.getX() + 3) {
                         continue;
                     }
                     //silverPoints.removeIf(silverPoint -> silverPoint.getX() > startPoint.getX() + 1);
@@ -41,7 +41,7 @@ public class Logic {
                 }
                 case "down" -> {
 
-                    if (sp.getY() < startPoint.getY() - 1) {
+                    if (sp.getY() < startPoint.getY() - 3) {
                         continue;
                     }
                     // direzione verticale
@@ -50,7 +50,7 @@ public class Logic {
                 }
                 case "right" -> {
 
-                    if (sp.getX() < startPoint.getX() - 1) {
+                    if (sp.getX() < startPoint.getX() - 3) {
                         continue;
                     }
                     // direzione orizzontale

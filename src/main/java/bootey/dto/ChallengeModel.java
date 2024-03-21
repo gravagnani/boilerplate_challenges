@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,15 +22,17 @@ public class ChallengeModel {
     private List<SilverPoint> silverPoints;
     private List<Tile> tiles;
 
-    private List<Tile> solutionTileList;
+    private List<Tile> solutionTileList = new ArrayList<>();
 
 
     public String toChallengeOutput() {
         StringBuilder s = new StringBuilder();
 
+        solutionTileList.remove(0);
+
         for (Tile tile : solutionTileList) {
 
-            s.append(tile.getId() + " " + tile.getX() + " " + tile.getY() + "\n");
+            s.append(tile.getType().getDefinition() + " " + tile.getX() + " " + tile.getY() + "\n");
         }
         return s.toString();
     }

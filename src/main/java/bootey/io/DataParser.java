@@ -81,9 +81,13 @@ public class DataParser {
                     .findFirst()
                     .orElseThrow(() -> new IllegalArgumentException("Invalid TileType definition: " + typeSplit));
 
+            // TILE -> type, cost, amount
             Tile tile = new Tile(type, Integer.parseInt(splitData[1]), Integer.parseInt(splitData[2]));
 
-            tiles.add(tile);
+            for (int i = 0; i < Integer.parseInt(splitData[2]); i++) {
+                tiles.add(tile);
+            }
+            // in totale saranno sempre 11 (perché undici tipi)
         }
 
         tiles.sort(Comparator.comparingInt(Tile::getCost));

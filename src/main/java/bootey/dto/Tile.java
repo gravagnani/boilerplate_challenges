@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Tile {
 
-    private TileType id;
+    private TileType type;
     private Integer cost;
     private Integer amount; // da diminuire ogni volta
 
@@ -18,8 +18,8 @@ public class Tile {
     private Integer x;
     private Integer y;
 
-    public Tile(TileType id, Integer cost, Integer amount) {
-        this.id = id;
+    public Tile(TileType type, Integer cost, Integer amount) {
+        this.type = type;
         this.cost = cost;
         this.amount = amount;
     }

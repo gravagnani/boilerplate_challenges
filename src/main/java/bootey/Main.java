@@ -2,6 +2,7 @@ package bootey;
 
 import bootey.solvers.Solver;
 import bootey.solvers.SolverBase;
+import bootey.solvers.SolverPoldone;
 import bootey.utils.Constants;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,8 +20,8 @@ import java.util.stream.IntStream;
 public class Main {
 
     private static boolean processAll = false; // if enabled all input files are processed
-    private static List<Integer> indexFileToProcess = Arrays.asList(0); // indexes of input files to be processed
-    private static final Class<? extends Solver> SOLVER = SolverBase.class; // name of the solver to use
+    private static List<Integer> indexFileToProcess = Arrays.asList(2); // indexes of input files to be processed
+    private static final Class<? extends Solver> SOLVER = SolverPoldone.class; // name of the solver to use
 
     public static void main(String[] args) {
         includeHighLevelSkill();
